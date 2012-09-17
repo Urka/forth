@@ -1,2 +1,2 @@
-forth
-=====
+Some stack math magic))))
+=========================
