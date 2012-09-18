@@ -9,7 +9,8 @@ import unittest
 COMMANDS = {}
 
 def register_command(func):
-    COMMANDS[func.__name__] = func
+    if func.__name__ not in ['wrraper']:
+        COMMANDS[func.__name__] = func
     def wrraper(self, *args, **kwargs):
         return func(self, *args, **kwargs)
     return wrraper
@@ -22,55 +23,69 @@ class Stack(object):
     def push(self, number):
         self._s.append(number)
 
-    @register_command
+    @register_command    
     def pop(self):
         return self._s.pop()
 
+    
     @register_command
     def dup(self):
         self._s.append(self._s[-1])
 
+    
     @register_command
     def mul(self):
         self._s.append(self._s[-1]*self._s[-2])
 
+    
     @register_command
     def swap(self):
         self._s[-2], self._s[-1] = self._s[-1], self._s[-2]
 
+    
     @register_command
     def over(self):
         self._s.append(self._s[-2])
 
+
+    
     @register_command
     def sin(self):
         self._s[-1] = math.sin(self._s[-1])
 
+
+    
     @register_command
     def cos(self):
         self._s[-1] = math.cos(self._s[-1])
 
+    
     @register_command
     def add(self):
         self._s.append(self._s[-1]+self._s[-2])
 
+    @register_command
     def print(self):
         print(self._s)
 
 
 def stack_runner():
-    number = int(raw_input("Imput number: "))
-    if not number: return
+    # number = int(raw_input("Imput number: "))
+    # if not number: return
 
     s = Stack()
-    s.push(number)
+    # s.push(number)
 
-    command = raw_input("[{0}] ".format(", ".join(COMMANDS.keys())))
-    while command:
-        COMMANDS[command](s)
-        command = raw_input("[{0}] ".format(", ".join(COMMANDS.keys())))
+    command_and_arg = raw_input("[{0}] ".format(", ".join(COMMANDS.keys()))).split(" ")
+    while command_and_arg:
+        if len(command_and_arg) == 2:
+            COMMANDS[command_and_arg[0].lower()](s, int(command_and_arg[1]))
+        elif len(command_and_arg) == 1 and len(command_and_arg[0]):
+            COMMANDS[command_and_arg[0].lower()](s)
+        else: break
+        command_and_arg = raw_input("[{0}] ".format(", ".join(COMMANDS.keys()))).split(" ")
 
-    print(s.pop())
+    print(s.print())
 
 
 class TestStack(unittest.TestCase):
