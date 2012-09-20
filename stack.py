@@ -78,7 +78,7 @@ def stack_runner():
     # s.push(number)
     
     
-    input = raw_input("Imput command or command with arguments: ") 
+    input = raw_input("Imput command or command with arguments: [{0}]".format(", ".join(COMMANDS.keys()))) 
     arg = re.compile('\d+')
     commands = 	re.compile('[a-z]+')
 	
@@ -88,7 +88,7 @@ def stack_runner():
         elif commands.findall(input):
             COMMANDS[commands.findall(input)[0].lower()](s)
         else: break
-        input = raw_input("Imput command or command with arguments: ")
+        input = raw_input("Imput command or command with arguments: [{0}]".format(", ".join(COMMANDS.keys())))
 
     print(s.print())
 
