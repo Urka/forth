@@ -78,20 +78,25 @@ def stack_runner():
     # s.push(number)
     
     
-    input = raw_input("Imput command or command with arguments: [{0}]".format(", ".join(COMMANDS.keys()))) 
+    inpt = raw_input("Imput command or command with arguments: [{0}]".format(", ".join(COMMANDS.keys()))) 
     arg = re.compile('\d+')
     commands = 	re.compile('[a-z]+')
 	
-    while input:
-        if commands.findall(input) and arg.findall(input):
-            COMMANDS[commands.findall(input)[0].lower()](s, int(arg.findall(input)[0]))
-        elif commands.findall(input):
-            COMMANDS[commands.findall(input)[0].lower()](s)
+    while inpt:
+        if commands.findall(inpt) and arg.findall(inpt):
+            try:
+                COMMANDS[commands.findall(inpt)[0].lower()](s, int(arg.findall(inpt)[0]))
+            except:
+                print ("Wrong comand or argument. Try again later")
+        elif commands.findall(inpt):
+            try:
+                COMMANDS[commands.findall(inpt)[0].lower()](s)
+            except:
+                print ("Wrong comand or argument. Try again later")    
         else: break
-        input = raw_input("Imput command or command with arguments: [{0}]".format(", ".join(COMMANDS.keys())))
+        inpt = raw_input("Imput command or command with arguments: [{0}]".format(", ".join(COMMANDS.keys())))
 
     print(s.print())
-
 
 	
 
