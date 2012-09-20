@@ -5,6 +5,7 @@ from __future__ import print_function
 import math
 import sys
 import unittest
+import re
 
 COMMANDS = {}
 
@@ -75,18 +76,23 @@ def stack_runner():
 
     s = Stack()
     # s.push(number)
-
-    command_and_arg = raw_input("[{0}] ".format(", ".join(COMMANDS.keys()))).split(" ")
-    while command_and_arg:
-        if len(command_and_arg) == 2:
-            COMMANDS[command_and_arg[0].lower()](s, int(command_and_arg[1]))
-        elif len(command_and_arg) == 1 and len(command_and_arg[0]):
-            COMMANDS[command_and_arg[0].lower()](s)
+    
+    
+    input = raw_input("Imput command or command with arguments: ") 
+    arg = re.compile('\d+')
+    commands = 	re.compile('[a-z]+')
+	
+    while input:
+        if commands.findall(input) and arg.findall(input):
+            COMMANDS[commands.findall(input)[0].lower()](s, int(arg.findall(input)[0]))
+        elif commands.findall(input):
+            COMMANDS[commands.findall(input)[0].lower()](s)
         else: break
-        command_and_arg = raw_input("[{0}] ".format(", ".join(COMMANDS.keys()))).split(" ")
+        input = raw_input("Imput command or command with arguments: ")
 
     print(s.print())
 
+	
 
 class TestStack(unittest.TestCase):
 
